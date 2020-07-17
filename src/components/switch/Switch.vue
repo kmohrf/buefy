@@ -4,7 +4,7 @@
         :class="newClass"
         ref="label"
         :disabled="disabled"
-        @click="focus"
+        @click.prevent="focusAndToggle"
         @keydown.prevent.enter="$refs.label.click()"
         @mousedown="isMouseDown = true"
         @mouseup="isMouseDown = false"
@@ -72,7 +72,6 @@ export default {
                 return this.newValue
             },
             set(value) {
-                this.newValue = value
                 this.$emit('input', value)
             }
         },
@@ -96,7 +95,8 @@ export default {
         }
     },
     methods: {
-        focus() {
+        focusAndToggle() {
+            this.computedValue = !this.computedValue
             // MacOS FireFox and Safari do not focus when clicked
             this.$refs.input.focus()
         }
